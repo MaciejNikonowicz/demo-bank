@@ -10,4 +10,16 @@ export default class BasePage {
     async navigate(url: string) {
         await this.page.goto(url);
     }
+
+    async parseStringAmountToNumber(amountLocator: string): Promise<number> {
+        const amountText = await this.page.locator(amountLocator).textContent();
+        const numericValue = parseFloat(
+            amountText
+                ?.trim()
+                .replace(/\s/g, '')
+                .replace('PLN', '')
+                .replace(',', '.') || '0'
+        );
+        return numericValue;
+    }
 }

@@ -10,13 +10,13 @@ export default class LoginPage extends BasePage {
         super(page);
     }
 
-    async login(username: string, password: string) {
+    async login(username: string, password: string): Promise<void> {
         await this.page.fill(this.usernameInput, username);
         await this.page.fill(this.passwordInput, password);
         await this.page.click(this.loginButton);
     }
 
-    async assertLoginSuccessful() {
+    async assertLoginSuccessful(): Promise<void> {
         await expect(this.page.locator('text=Wyloguj')).toBeVisible();
     }
 }
