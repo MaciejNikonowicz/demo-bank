@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
 
 /**
  * Read environment variables from file.
@@ -12,6 +13,9 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  // Run the global setup script once, before the test suite starts.
+  globalSetup: require.resolve('./global-setup'),
+
   testDir: './tests',
   timeout: 30 * 1000,
   /* Run tests in files in parallel */
@@ -26,6 +30,8 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    // Reuse the authentication state from the saved file.
+    storageState: path.resolve(__dirname, 'storageState.json'),
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'https://demo-bank.vercel.app',
     headless: true,
